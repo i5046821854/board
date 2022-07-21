@@ -1,0 +1,40 @@
+debug: false    #디버그 로그 활성화 (로그백을 사용했을 때 디버그 로그 찍을 수 있도록, 너무 많아서 false)
+management.endpoints.web.exposure.include: "*"    #actuator의 엔드포인트 중 감춰진 놈들을 다 꺼냄
+
+logging:
+  level:
+    com.springExec.board: debug    #여기서 발생하는 모든 로그를 어떻게 찍을 것인지
+    org.springframework.web.servlet: debug   #엔드포인트에서 오직 request, response에 관한 로그만 찍을 수 있도록 (첫째줄에 debug와 연관, 첫째줄은 이거에 덧붙여서 너무 많이 찍어줘서 false)
+    org.hibernate.type.descriptor.sql.BasicBinder: trace   #쿼리의 바인딩 파라미터를 ?에서 실제 파라미터로
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3305/board
+    username: lee
+    password: thisistestPW
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    #open-in-view: false
+    defer-datasource-initialization: true   #resource안에 초기 테스트용 db생성
+    hibernate.ddl-auto: create   #엔티티, 설정 등을 보고 유추해서 자동으로 쿼리(테이블)을 만들어줌
+    show-sql: true  #sql 문장 보여줌
+    properties:  #jpa에 종속된 구현체 - hibernate / 하이버네이트에서 사용하는 property를 기입
+      hibernate.format_sql: true   #한줄로 나오는 디버그 로그가 여러 줄로
+      hibernate.default_batch_fetch_size: 100   #jpa에서 연관관계 매핑된 테이블을 가져올 때 한번에 떙겨올 row
+  h2.console.enabled : true
+  sql.init.mode: always #resource안에 생성한 초기 테스트 DB를 언제 활성화 하겠는가
+#  data.rest:
+#    base-path: /api
+#    detection-strategy: annotated
+#  thymeleaf3.decoupled-logic: true
+
+---  #이걸 기준으로 여러 도큐먼트 작성 가능
+
+#test DB용
+ spring:
+  config.activate.on-profile: testdb  #프로필 지정   / testdb 프로파일이 activated 될 때 이 문서를 읽어라
+#  datasource:  #h2 compatibility mode를 써서 테스트 하고자 할 때
+#    url: jdbc:h2:mem:board;mode=mysql
+#    driver-class-name: org.h2.Driver
+#  sql.init.mode: always
+#  test.database.replace: none  # @ActiveProfiles("testdb")를 사용하기 위함 / 그렇지 않다면 런하면서 자동으로 테스트 디비가 적용되서 이 테스트 DB가 안 쓰임
