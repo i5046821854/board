@@ -13,6 +13,9 @@ spring:
     username: lee
     password: thisistestPW
     driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:h2:mem:testdb  #testDb 접속할 시
+#    username: sa
+#    driver-class-name: org.h2.Driver
   jpa:
     #open-in-view: false
     defer-datasource-initialization: true   #resource안에 초기 테스트용 db생성
@@ -21,7 +24,7 @@ spring:
     properties:  #jpa에 종속된 구현체 - hibernate / 하이버네이트에서 사용하는 property를 기입
       hibernate.format_sql: true   #한줄로 나오는 디버그 로그가 여러 줄로
       hibernate.default_batch_fetch_size: 100   #jpa에서 연관관계 매핑된 테이블을 가져올 때 한번에 떙겨올 row
-  h2.console.enabled : true
+#  h2.console.enabled : true
   sql.init.mode: always #resource안에 생성한 초기 테스트 DB를 언제 활성화 하겠는가
 #  data.rest:
 #    base-path: /api

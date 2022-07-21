@@ -1,4 +1,4 @@
-package com.springExec.board.domain.config;
+package com.springExec.board.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
