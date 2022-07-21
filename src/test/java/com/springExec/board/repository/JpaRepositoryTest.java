@@ -1,8 +1,7 @@
 package com.springExec.board.repository;
 
 import com.springExec.board.domain.Article;
-import com.springExec.board.domain.ArticleComment;
-import com.springExec.board.domain.config.JpaConfig;
+import com.springExec.board.config.JpaConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
