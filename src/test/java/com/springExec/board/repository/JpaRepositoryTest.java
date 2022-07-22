@@ -29,7 +29,7 @@ class JpaRepositoryTest {
     @Test
     void givenTestData_whenSelect(){
         List<Article> articles = articleRepository.findAll();
-        assertThat(articles).isNotNull().hasSize(0);
+        assertThat(articles).isNotNull().hasSize(123);
     }
 
     @DisplayName("insert 테스트")
