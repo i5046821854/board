@@ -25,13 +25,12 @@ class ArticleControllerTest {
         this.mvc = mvc;
     }
 
-    @Disabled("개발 중")
     @Test
     @DisplayName("[view][GET] 게시글 리스트 페이지 - 정상호출")
     public void givenNothing_whenRequestingArticleView_thenReturnsArticlesView() throws Exception {
         mvc.perform(get("/articles"))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.TEXT_HTML))
+                .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("articles/index"))  //뷰의 이름을 체크
                 .andExpect(MockMvcResultMatchers.model().attributeExists("articles"));  //모델 어트리뷰트를 검사
     }
