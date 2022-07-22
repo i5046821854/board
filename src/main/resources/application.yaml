@@ -26,9 +26,9 @@ spring:
       hibernate.default_batch_fetch_size: 100   #jpa에서 연관관계 매핑된 테이블을 가져올 때 한번에 떙겨올 row
 #  h2.console.enabled : true
   sql.init.mode: always #resource안에 생성한 초기 테스트 DB를 언제 활성화 하겠는가
-#  data.rest:
-#    base-path: /api
-#    detection-strategy: annotated
+  data.rest:  #rest repository를 사용하기 위해
+    base-path: /api
+    detection-strategy: annotated  #리포지토리를 api로 노출하는 전략 (애노테이션 기반)
 #  thymeleaf3.decoupled-logic: true
 
 ---  #이걸 기준으로 여러 도큐먼트 작성 가능
