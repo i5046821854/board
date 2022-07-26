@@ -29,7 +29,8 @@ spring:
   data.rest:  #rest repository를 사용하기 위해
     base-path: /api
     detection-strategy: annotated  #리포지토리를 api로 노출하는 전략 (애노테이션 기반)
-#  thymeleaf3.decoupled-logic: true
+  thymeleaf3:
+    decoupled-logic: true
 
 ---  #이걸 기준으로 여러 도큐먼트 작성 가능
 
