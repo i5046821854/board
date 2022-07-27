@@ -2,6 +2,7 @@ package com.springExec.board.repository;
 
 import com.springExec.board.domain.Article;
 import com.springExec.board.config.JpaConfig;
+import com.springExec.board.domain.UserAccount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,12 @@ class JpaRepositoryTest {
 
     public final ArticleCommentRepository articleCommentRepository;
     public final ArticleRepository articleRepository;
+    public final UserAccountRepository userAccountRepository;
 
-    public JpaRepositoryTest(@Autowired ArticleCommentRepository articleCommentRepository, @Autowired ArticleRepository articleRepository) {
+    public JpaRepositoryTest(@Autowired ArticleCommentRepository articleCommentRepository, @Autowired ArticleRepository articleRepository, @Autowired UserAccountRepository userAccountRepository) {
         this.articleCommentRepository = articleCommentRepository;
         this.articleRepository = articleRepository;
+        this.userAccountRepository = userAccountRepository;
     }
 
     @DisplayName("select 테스트")
@@ -36,14 +39,15 @@ class JpaRepositoryTest {
     @Test
     void givenTestData_whenInsert(){
         long prevCount = articleRepository.count();
-        articleRepository.save(Article.of("title", "content", "@hashtag"));
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("lee", "pw", null, null, null));
+        Article article = Article.of(userAccount, "new Article", "new content", "#hashtag");
+        articleRepository.save(article);
         assertThat(articleRepository.count()).isEqualTo(prevCount+1);
     }
 
     @DisplayName("update 테스트")
     @Test
     void givenTestData_whenUpdate(){
-        articleRepository.save(Article.of("title", "content", "@hashtag"));
         Article article = articleRepository.findById(1L).orElseThrow();
         String updatedHashTag = "#Spring";
         article.setHashtag(updatedHashTag);
@@ -56,7 +60,6 @@ class JpaRepositoryTest {
     @DisplayName("delete 테스트")
     @Test
     void givenTestData_whenDelete(){
-        articleRepository.save(Article.of("title", "content", "@hashtag"));
         Article article = articleRepository.findById(1L).orElseThrow();
         long prevArticleCount = articleRepository.count();
         long prevArticleComCount = articleCommentRepository.count();
