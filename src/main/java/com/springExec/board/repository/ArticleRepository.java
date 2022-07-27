@@ -1,5 +1,6 @@
 package com.springExec.board.repository;
 
+import com.jayway.jsonpath.JsonPath;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 import com.springExec.board.domain.Article;
@@ -19,7 +20,12 @@ public interface ArticleRepository extends
         QuerydslBinderCustomizer<QArticle>
 {
 
-    Page<Article> findByTitle(String title, Pageable pageable);
+    Page<Article> findByTitleContaining(String title, Pageable pageable);
+    Page<Article> findByContentContaining(String content, Pageable pageable);
+    Page<Article> findByUserAccount_UserIdContaining(String userId, Pageable pageable);
+    Page<Article> findByUserAccount_NicknameContaining(String nickname, Pageable pageable);
+    Page<Article> findByHashtag(String hashtag, Pageable pageable);
+
     @Override
     default void customize(QuerydslBindings bindings, QArticle root){
         bindings.excludeUnlistedProperties(true);  //선택적인 필드만 검색되도록
@@ -30,4 +36,6 @@ public interface ArticleRepository extends
         bindings.bind(root.createdBy).first(StringExpression::containsIgnoreCase);
 
     }
+
+
 }
