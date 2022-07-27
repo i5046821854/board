@@ -21,6 +21,8 @@ public class Article extends AuditingFields{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
     @Setter @ManyToOne(optional = false) private UserAccount userAccount; //유저정보
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
     @Setter @Column(nullable = false) private String title; //제목
     @Setter @Column(nullable = false, length = 10000) private String content; //내용
     @Setter private String hashtag; // 해시태그
