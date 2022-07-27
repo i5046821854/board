@@ -16,7 +16,7 @@ import java.util.Objects;
         @Index(columnList = "createdBy")
 })
 @Entity
-public class UserAccount {
+public class UserAccount extends AuditingFields{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

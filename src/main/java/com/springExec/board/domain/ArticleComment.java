@@ -21,12 +21,12 @@ public class ArticleComment extends AuditingFields{
     @Setter @ManyToOne(optional = false) private Article article; // 게시글 (ID)
     @Setter @Column(nullable = false, length = 500) private String content; //내용
 
-
     protected ArticleComment() {
     }
 
     private ArticleComment(Article article, UserAccount userAccount, String content) {
         this.article = article;
+        this.userAccount = userAccount;
         this.content = content;
     }
 
