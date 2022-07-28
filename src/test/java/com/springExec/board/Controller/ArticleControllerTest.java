@@ -93,18 +93,22 @@ class ArticleControllerTest {
     }
 
     @Test
-    @DisplayName("[view][GET] 게시글 상세 페이지 - 정상호출")
+    @DisplayName("[view][GET] 게시글 페이지 - 정상호출")
     public void givenNothing_whenRequestingArticleView_thenReturnsSingleArticleView() throws Exception {
         Long articleId = 1l;
+        Long totalCount = 1l;
         given(articleService.getArticle(articleId)).willReturn(createArticleWithCommentsDto());
-
+        given(articleService.getArticleCount()).willReturn(totalCount);
         mvc.perform(get("/articles/1"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("articles/detail"))  //뷰의 이름을 체크
                 .andExpect(MockMvcResultMatchers.model().attributeExists("article"))
-                .andExpect(MockMvcResultMatchers.model().attributeExists("articleComments"));
+                .andExpect(MockMvcResultMatchers.model().attributeExists("articleComments"))
+                .andExpect(MockMvcResultMatchers.model().attributeExists("articleComments"))
+                .andExpect(MockMvcResultMatchers.model().attribute("totalCount", totalCount));
         then(articleService).should().getArticle(articleId);
+        then(articleService).should().getArticleCount();
     }
 
     @Disabled("개발 중")
