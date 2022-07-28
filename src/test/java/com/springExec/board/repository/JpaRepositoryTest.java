@@ -39,7 +39,7 @@ class JpaRepositoryTest {
     @Test
     void givenTestData_whenInsert(){
         long prevCount = articleRepository.count();
-        UserAccount userAccount = userAccountRepository.save(UserAccount.of("lee", "pw", null, null, null));
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("lee2g", "pw", null, null, null));
         Article article = Article.of(userAccount, "new Article", "new content", "#hashtag");
         articleRepository.save(article);
         assertThat(articleRepository.count()).isEqualTo(prevCount+1);
