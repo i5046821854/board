@@ -38,7 +38,7 @@ public class ArticleController {
         List<Integer> paginationBarNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), articles.getTotalPages());
         map.addAttribute("articles", articles);  //dto를 response 형태로 바꿔서 리턴
         map.addAttribute("paginationBarNumbers", paginationBarNumbers);  //dto를 response 형태로 바꿔서 리턴
-
+        map.addAttribute("searchTypes", searchType.values());
         return "articles/index";
     }
 
