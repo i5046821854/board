@@ -2,6 +2,7 @@ package com.springExec.board.Controller;
 
 import com.springExec.board.config.SecurityConfig;
 import com.springExec.board.controller.ArticleController;
+import com.springExec.board.domain.type.SearchType;
 import com.springExec.board.dto.ArticleWithCommentsDto;
 import com.springExec.board.dto.UserAccountDto;
 import com.springExec.board.service.ArticleService;
@@ -62,6 +63,26 @@ class ArticleControllerTest {
         then(articleService).should().searchArticles(eq(null), eq(null), any(Pageable.class));
         then(paginationService).should().getPaginationBarNumbers(anyInt(), anyInt());
     }
+
+    @Test
+    @DisplayName("[view][GET] 게시글 리스트 페이지 - 검색어와 함께 호출")
+    public void givenSearchKeyword_whenSearchingArticleView_thenReturnsArticlesView() throws Exception {
+
+        SearchType searchType = SearchType.TITLE;
+        String searchValue = "title";
+        given(articleService.searchArticles(eq(searchType), eq(searchValue), any(Pageable.class))).willReturn(Page.empty());
+        given(paginationService.getPaginationBarNumbers(anyInt(), anyInt())).willReturn(List.of(1,2,3,4));
+        mvc.perform(get("/articles").queryParam("searchType", searchType.name()).queryParam("searchValue", searchValue))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+                .andExpect(view().name("articles/index"))  //뷰의 이름을 체크
+                .andExpect(MockMvcResultMatchers.model().attributeExists("articles"))  //모델 어트리뷰트를 검사
+                .andExpect(model().attributeExists("paginationBarNumbers"))
+                .andExpect(model().attributeExists("searchTypes"));
+        then(articleService).should().searchArticles(eq(searchType), eq(searchValue), any(Pageable.class));
+        then(paginationService).should().getPaginationBarNumbers(anyInt(), anyInt());
+    }
+
 
     @DisplayName("[view][GET] 게시글 리스트 (게시판) 페이지 - 페이징, 정렬 기능")
     @Test
@@ -130,6 +151,7 @@ class ArticleControllerTest {
                 .andExpect(view().name("articles/search-hashtag"))  //뷰의 이름을 체크
                 .andExpect(MockMvcResultMatchers.content().contentTypeCompatibleWith(MediaType.TEXT_HTML));
     }
+
 
 
     private ArticleWithCommentsDto createArticleWithCommentsDto() {
