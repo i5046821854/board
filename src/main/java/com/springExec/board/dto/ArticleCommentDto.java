@@ -2,6 +2,7 @@ package com.springExec.board.dto;
 
 import com.springExec.board.domain.Article;
 import com.springExec.board.domain.ArticleComment;
+import com.springExec.board.domain.UserAccount;
 
 import java.time.LocalDateTime;
 
@@ -21,6 +22,10 @@ public record ArticleCommentDto(
         return new ArticleCommentDto(id, articleId, userAccountDto, content, createdAt, createdBy, modifiedAt, modifiedBy);
     }
 
+    public static ArticleCommentDto of(Long articleId, UserAccountDto userAccountDto, String content) {
+        return new ArticleCommentDto(null, articleId, userAccountDto, content, null, null, null, null);
+    }
+
     public static ArticleCommentDto from(ArticleComment entity) {
         return new ArticleCommentDto(
                 entity.getId(),
@@ -34,10 +39,10 @@ public record ArticleCommentDto(
         );
     }
 
-    public ArticleComment toEntity(Article entity) {
+    public ArticleComment toEntity(Article entity, UserAccount userAccount) {
         return ArticleComment.of(
                 entity,
-                userAccountDto.toEntity(),
+                userAccount,
                 content
         );
     }
