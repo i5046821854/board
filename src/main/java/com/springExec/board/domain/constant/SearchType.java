@@ -1,4 +1,4 @@
-package com.springExec.board.domain.type;
+package com.springExec.board.domain.constant;
 
 import lombok.Getter;
 
