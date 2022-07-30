@@ -35,5 +35,5 @@ Spring Boot
 
 ## 데모 페이지
 
-*  https://project-board-uno.herokuapp.com/
+*  https://git.heroku.com/project-board-lee.git
 
