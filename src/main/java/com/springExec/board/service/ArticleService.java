@@ -62,18 +62,21 @@ public class ArticleService {
         try
         {
             Article article = articleRepository.getReferenceById(articleId);
-            if(dto.content() != null) article.setContent(dto.content());  //타이틀, 컨텐트는 not null이니까 dto의 해당 값이 null이 아닐때만 바꿔주는 걸로
-            if(dto.title() != null) article.setTitle(dto.title());
-            article.setHashtag(dto.hashtag());
+            UserAccount userAccount = userAccountRepository.getReferenceById(dto.userAccountDto().userId());
+            if(article.getUserAccount().getUserId().equals(userAccount.getUserId())){  //글 작성자만 수정할 수 있도록
+                if(dto.content() != null) article.setContent(dto.content());  //타이틀, 컨텐트는 not null이니까 dto의 해당 값이 null이 아닐때만 바꿔주는 걸로
+                if(dto.title() != null) article.setTitle(dto.title());
+                article.setHashtag(dto.hashtag());
+            }
         }catch (EntityNotFoundException e)
         {
-            log.warn("게시글 업데이트 실패, 게시글을 찾을 수 없음 - dto : {}", dto);
+            log.warn("게시글 업데이트 실패, 게시글을 수정하는데 필요한 정보를 찾을 수 없음 - dto : {}", dto);
         }
 //        articleRepository.save(article);  필요없음. set으로 변경 감지
     }
 
-    public void deleteArticle(long articleId) {
-        articleRepository.deleteById(articleId);
+    public void deleteArticle(long articleId, String userid) {
+        articleRepository.deleteByIdAndUserAccount_UserId(articleId, userid);
     }
 
     public long getArticleCount() {

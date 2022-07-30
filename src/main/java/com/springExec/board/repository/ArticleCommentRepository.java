@@ -18,6 +18,8 @@ public interface ArticleCommentRepository extends JpaRepository<ArticleComment, 
         QuerydslBinderCustomizer<QArticleComment> {
 
     List<ArticleComment> findByArticle_Id(Long articleId);
+    void deleteByIdAndUserAccount_UserId(Long articleId, String userId);
+
     @Override
     default void customize(QuerydslBindings bindings, QArticleComment root){
         bindings.excludeUnlistedProperties(true);  //선택적인 필드만 검색되도록
